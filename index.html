@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff5f6d, #ffc371);
+            background-size: 200% 200%;
+            animation: gradient 8s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="datetime-local"] {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        input[type="datetime-local"]:focus {
+            background: #f7f7f7;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #ff6b6b;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        #timestamp {
+            margin-top: 20px;
+            font-size: 1.2em;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Timestamp Generator</h1>
+        <input type="datetime-local" id="datetime" />
+        <button onclick="generateTimestamp()">Generate Timestamp</button>
+        <button onclick="copyTimestamp()">Copy Timestamp</button>
+        <div id="timestamp"></div>
+    </div>
+
+    <script>
+        let currentTimestamp = '';
+
+        function generateTimestamp() {
+            const datetimeInput = document.getElementById('datetime').value;
+            
+            const now = datetimeInput ? new Date(datetimeInput) : new Date();
+            
+            const timestamp = Math.floor(now.getTime() / 1000);
+            
+            currentTimestamp = `<t:${timestamp}:R>`;
+            
+            document.getElementById('timestamp').innerText = currentTimestamp;
+        }
+
+        function copyTimestamp() {
+            if (currentTimestamp) {
+                const textarea = document.createElement('textarea');
+                textarea.value = currentTimestamp;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                alert('Timestamp copied to clipboard!');
+            } else {
+                alert('No timestamp to copy. Please generate one first.');
+            }
+        }
+    </script>
+</body>
+</html>
